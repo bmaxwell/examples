@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
+    version="3.1">
+    <enterprise-beans>
+        <session>
+            <ejb-name>PropertiesConfig</ejb-name>
+<!--
+            <session-type>Singleton</session-type>
+            <ejb-class>com.jboss.examples.mbean.JBossServiceExample</ejb-class>
+            <init-on-startup>true</init-on-startup>
+            <post-construct>
+              <lifecycle-callback-method>start</lifecycle-callback-method>
+            </post-construct>
+            <pre-destroy>
+              <lifecycle-callback-method>stop</lifecycle-callback-method>
+            </pre-destroy>
+-->
+						<env-entry>
+							<env-entry-name>propertiesFile</env-entry-name>
+							<env-entry-type>java.lang.String</env-entry-type>
+							<env-entry-value>config.properties</env-entry-value>
+						</env-entry>
+        </session>
+   </enterprise-beans>
+</ejb-jar>
