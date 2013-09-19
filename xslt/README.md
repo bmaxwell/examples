@@ -1,0 +1,1 @@
+xslt.war - this was contains an xml & xsl file.  The interface http://localhost:8080/xslt/ will load the xml & xsl file using getResource and then apply the transformation and show the xml, xsl and resulting xml in the user interface.
