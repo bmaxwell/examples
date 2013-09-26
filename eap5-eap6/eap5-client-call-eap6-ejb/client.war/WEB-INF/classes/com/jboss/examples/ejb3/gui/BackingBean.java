@@ -14,9 +14,11 @@ public class BackingBean {
 	private String response = "";
 	private Boolean useTransferObject = false;
 
-	private String remote = "ejb:helloWorld/helloWorld-ejb//HelloBean!com.jboss.examples.ejb3.Hello";
+	private String remote = "helloWorld/helloWorld-ejb//HelloBean!com.jboss.examples.ejb3.Hello";
 
 	private Long sleepSeconds = 5L;
+
+	private Context context;
 
 	public BackingBean() 
 	{
@@ -62,18 +64,35 @@ public class BackingBean {
 	}
 
 	private Context getInitialContext() throws Exception {
+		if(context == null)
+			context = getEJBCLIENT_34_Scoped_InitialContext();
+		return context;
+	}
 
+	private void closeContext() throws Exception {
+		if(context != null) {
+			try {
+				context.close();
+			} catch(Exception e) {}
+			finally {
+				context = null;
+			}
+		}	
+	}
+
+	private Context getEJBCLIENT_34_Scoped_InitialContext() throws Exception {
 		Properties p = new Properties();
+		p.put("endpoint.name", "client-endpoint");
 		p.put("remote.connections", "default");
 		p.put("remote.connection.default.host", config.getHost()); 
 		p.put("remote.connection.default.port", config.getPort());  
 		p.put("remote.connection.default.username", config.getUsername());  
 		p.put("remote.connection.default.password", config.getPassword());  
-		p.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", "false");
+		p.put("org.jboss.ejb.client.scoped.context", "true");
 		p.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", "false"); // the server defaults to SSL_ENABLED=false
 		// ...
 		p.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
-		return new InitialContext(p);
+		return (Context) new InitialContext(p).lookup("ejb:");
 	}	
 
 	private Hello getRemote() throws Exception {
@@ -88,6 +107,8 @@ public class BackingBean {
 			response = getRemote().hello( new TransferParameter (name) ).getValue();	
 		else 
 			response = getRemote().hello(name);	
+
+		closeContext();
 		return "";
 	}
 	
@@ -96,6 +117,7 @@ public class BackingBean {
 		System.out.println ( "Calling Remote interface - hello sleep");	
 		Context context = new InitialContext();
 		response = getRemote().hello(sleepSeconds);
+		closeContext();
 		return "";
 	}
 }

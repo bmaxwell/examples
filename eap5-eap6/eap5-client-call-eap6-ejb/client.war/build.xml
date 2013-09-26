@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
- To the extent possible under law, Red Hat, Inc. has dedicated all copyright to this software to the public domain worldwide, pursuant to the CC0 Public Domain Dedication. This software is distributed without any warranty.  See <http://creativecommons.org/publicdomain/zero/1.0/>.
-
 author: Brad Maxwell
 Simplified Build
 version 0.4 May 28, 2010
@@ -54,7 +52,6 @@ Adding custom lib directory in build.properties
 		
 	<!-- =====  ARCHIVE-TYPE ===== -->
 	<condition property="archive-type" value="jar"><matches string="${dirName}" pattern="^.*\.jar$"/></condition>
-	<condition property="archive-type" value="rar"><matches string="${dirName}" pattern="^.*\.rar$"/></condition>
 	<condition property="archive-type" value="sar"><matches string="${dirName}" pattern="^.*\.sar$"/></condition>
 	<condition property="archive-type" value="war"><matches string="${dirName}" pattern="^.*\.war$"/></condition>
 	<condition property="archive-type" value="ear"><matches string="${dirName}" pattern="^.*\.ear$"/></condition>
@@ -231,8 +228,7 @@ Adding custom lib directory in build.properties
 
 	<macrodef name="init">
 		<sequential>
-			<check-env-set var="jboss-home"/>
-			<!-- <check-env-set var="env.JBOSS_HOME"/> -->
+			<check-env-set var="env.JBOSS_HOME"/>
 			<check-env-set var="jboss-server"/>
 
 			<echo>Running ${archive-type} build scripts : ${ant.file}</echo>
@@ -356,11 +352,6 @@ Adding custom lib directory in build.properties
 	<target name="sar-package">
 		<jar-package/>
 	</target>
-
-	<target name="rar-package">
-		<jar-package/>
-	</target>
-
 
 	<macrodef name="jar-package">
 		<sequential>
