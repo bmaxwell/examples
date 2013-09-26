@@ -1,0 +1,7 @@
+Setup:
+
+In the JBoss profile, change the ExampleDS to be as shown below.  Only things bound into java:jboss/exported/ can be looked up remotely
+
+                <datasource jndi-name="java:jboss/exported/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
+
+This test will show the NotSerializableException as remote datasources are not supported in EAP 6 as they have negative issues.  The recommendation is to use an EJB to access the datasource and then call the EJB remotely.
